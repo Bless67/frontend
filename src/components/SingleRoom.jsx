@@ -2,7 +2,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import api from "../Utils/Api.js";
 import { useAuth } from "../Utils/AuthProvider.jsx";
-import { FaStar, FaAngleUp, FaAngleDown } from "react-icons/fa";
+import {FaStar,FaAngleUp,FaAngleDown} from "react-icons/fa"
 import Carousel from "../Layout/Carousel.jsx";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import Header from "../Layout/Header.jsx";

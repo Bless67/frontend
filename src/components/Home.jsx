@@ -61,7 +61,7 @@ const Home = () => {
     }, [isLogged, isLoggedOut]);
 
     return (
-        <div>
+        <div className="h-full">
             <ToastContainer />
             <Header isOpen={isOpen}>
                 <FaBars onClick={handleIsOpen} />

@@ -43,7 +43,7 @@ function Room() {
                     {errorMessage}
                 </p>
             )}
-            {data && (
+            {data && data.length > 0 ? (
                 <div className="text-gray-600">
                     <h2 className="text-2xl text-center font-bold my-2 ">
                         Available Rooms
@@ -69,8 +69,13 @@ function Room() {
                         ))}
                     </ul>
                 </div>
+            ) : (data &&
+                <div className="text-2xl text-gray-600 text-center  font-bold p-1.5">
+                    <p>No available room at the moment</p>
+                </div>
             )}
-            {!loading && !errorMessage && <Footer/>}
+
+            {!loading && !errorMessage && <Footer />}
         </div>
     );
 }
