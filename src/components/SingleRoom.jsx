@@ -2,7 +2,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import api from "../Utils/Api.js";
 import { useAuth } from "../Utils/AuthProvider.jsx";
-import {FaStar,FaAngleUp,FaAngleDown} from "react-icons/fa"
+import { FaStar, FaAngleUp, FaAngleDown } from "react-icons/fa";
 import Carousel from "../Layout/Carousel.jsx";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import Header from "../Layout/Header.jsx";
@@ -10,7 +10,7 @@ import Footer from "../Layout/Footer.jsx";
 import { ToastContainer, toast, Slide } from "react-toastify";
 
 function SingleRoom() {
-    const { user,isBooked,setIsBooked } = useAuth();
+    const { user, isBooked, setIsBooked } = useAuth();
 
     const { id } = useParams();
     const [data, setData] = useState(null);
@@ -35,10 +35,10 @@ function SingleRoom() {
         };
         fetchDtata();
     }, []);
-    
-    useEffect(()=>{
-      if(isBooked){
-        toast.success("Reservation booked successful", {
+
+    useEffect(() => {
+        if (isBooked) {
+            toast.success("Reservation booked successful", {
                 position: "bottom-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -49,9 +49,9 @@ function SingleRoom() {
                 theme: "dark",
                 transition: Slide
             });
-      }
-      return ()=> setIsBooked(false)
-    },[isBooked])
+        }
+        return () => setIsBooked(false);
+    }, [isBooked]);
     return (
         <>
             <ToastContainer />
@@ -87,32 +87,35 @@ function SingleRoom() {
                         </h3>
 
                         <Carousel images={data.images} />
-
-                        <h2 className="text-2xl my-1.5 font-bold flex justify-start items-center mt-8">
-                            Amenities
-                            <button
-                                onClick={() => setIsAmenityOpen(!isAmenityOpen)}
-                                className=" text-gray-600 ml-4 text-3xl bg-blue-500  px-1 rounded-full"
-                            >
-                                {isAmenityOpen ? (
-                                    <FaAngleUp />
-                                ) : (
-                                    <FaAngleDown />
-                                )}
-                            </button>
-                        </h2>
-                        {data.room_amenities.map(amenity => (
-                            <div
-                                key={amenity.id}
-                                className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                                    isAmenityOpen
-                                        ? "max-h-40 opacity-100"
-                                        : "max-h-0 opacity-0"
-                                }`}
-                            >
-                                <li>{amenity.amenity_name}</li>
-                            </div>
-                        ))}
+                        
+                            <h2 className="text-2xl my-1.5 font-bold flex justify-start items-center mt-8">
+                                Amenities
+                                <button
+                                    onClick={() =>
+                                        setIsAmenityOpen(!isAmenityOpen)
+                                    }
+                                    className=" text-gray-600 ml-4 text-3xl bg-blue-500  px-1 rounded-full"
+                                >
+                                    {isAmenityOpen ? (
+                                        <FaAngleUp />
+                                    ) : (
+                                        <FaAngleDown />
+                                    )}
+                                </button>
+                            </h2>
+                            {data.room_amenities.map(amenity => (
+                                <div
+                                    key={amenity.id}
+                                    className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                                        isAmenityOpen
+                                            ? "max-h-40 opacity-100"
+                                            : "max-h-0 opacity-0"
+                                    }`}
+                                >
+                                    <li>{amenity.amenity_name}</li>
+                                </div>
+                            ))}
+                        
 
                         <h2 className="text-2xl my-4 mt-7 font-bold flex justify-start items-center">
                             Features

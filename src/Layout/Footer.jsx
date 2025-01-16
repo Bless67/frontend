@@ -26,9 +26,9 @@ const Footer = () => {
                     Contact us
                     <button
                         onClick={() => setContactOpen(!contactOpen)}
-                        className="text-3xl"
+                        className="text-3xl bg-blue-500 rounded-full"
                     >
-                        {contactOpen ? <FaAngleUp /> : <FaAngleDown />}
+                        {contactOpen ? <FaAngleDown /> : <FaAngleUp />}
                     </button>
                 </p>
                 <div
