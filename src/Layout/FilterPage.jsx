@@ -24,9 +24,9 @@ const FilterPage = ({
     const handleFilterData = () => {
         const filteredData = constantData.filter(item => {
             const withinPriceRange =
-                item.room_price >= minPrice && item.room_price <= maxPrice; // Corrected the price range logic
+                item.room_price >= minPrice && item.room_price <= maxPrice;
             const matchesRoomType =
-                roomType === "All" || item.room_type === roomType; // Include all rooms when "All" is selected
+                roomType === "All" || item.room_type === roomType;
             return matchesRoomType && withinPriceRange;
         });
 
@@ -35,9 +35,11 @@ const FilterPage = ({
     };
     return (
         <div
-            className={`fixed top-0 opacity-99 left-0 bg-gray-800 h-full  pr-3 pt-4 transform ${
-                isFilterOpen ? "-translate-y-0" : "translate-y-full"
-            } transition-transform duration-300 z-10 w-full `}
+            className={`fixed left-0 top-0 bg-gray-800 h-screen pr-3 pt-4 transform transition-all duration-500 z-50 w-full insert-1 ${
+                isFilterOpen
+                    ? "opacity-100 -translate-y-0"
+                    : "opacity-0 translate-y-full"
+            }`}
         >
             <div className="flex justify-end">
                 <button onClick={handleClose} className="text-white text-3xl">

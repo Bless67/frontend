@@ -172,9 +172,7 @@ const Register = () => {
                     </button>
                 </form>
 
-                <p className="font-bold text-center text-gray-400">
-                    Forget Password?
-                </p>
+                
                 <p className="text-center font-bold mt-5">
                     Already have an account?
                     <Link className="text-gray-400" to="/login">

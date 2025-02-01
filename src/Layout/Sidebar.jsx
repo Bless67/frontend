@@ -10,14 +10,13 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             setIsOpen(false);
         }
     };
-    
+
     return (
         <>
-            
             <div
-                className={`fixed top-0 left-0 bg-gray-800 h-full  pr-3 pt-4 transform ${
+                className={`fixed top-0 left-0 bg-gray-800 h-screen  pr-3 pt-4 transform ${
                     isOpen ? "translate-x-0" : "-translate-x-full"
-                } transition-transform duration-300 z-10 w-[80%]`}
+                } transition-transform duration-300 z-10 w-[85%]`}
             >
                 <div className="w-full mb-3 flex justify-between px-1.5  ">
                     <p className="text-blue-500 text-2xl font-extrabold">
@@ -32,52 +31,48 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                 </div>
                 {user && (
                     <p className="text-white ml-2 text font-bold mb-10">
-                        {user.username}
+                        <Link to="/profile">{user.username}</Link>
                     </p>
                 )}
 
                 <hr />
                 <div className="">
-                    <Link to="/room">
-                        <p className="text-xl ml-2 mt-8 text-white font-bold">
-                            Rooms
-                        </p>
-                    </Link>
-                    <Link to="/check-reservation">
+                    <p className="text-xl ml-2 mt-8 text-white font-bold">
+                        <Link to="/room">Rooms</Link>
+                    </p>
+
+                    {user && (
                         <p className="text-xl ml-2 mt-5 text-white font-bold">
-                            Reservations
+                            <Link to="/check-reservation">Reservations</Link>
                         </p>
-                    </Link>
-                    <Link>
-                        <p className="text-xl ml-2 mt-5 text-white font-bold">
-                            Contacts
-                        </p>
-                    </Link>
-                    <Link>
-                        <p className="text-xl ml-2 mt-5 text-white font-bold">
-                            About
-                        </p>
-                    </Link>
-                    <Link>
+                    )}
+
+                    <p className="text-xl ml-2 mt-5 text-white font-bold">
+                        Contacts
+                    </p>
+
+                    <p className="text-xl ml-2 mt-5 text-white font-bold">
+                        <Link>About</Link>
+                    </p>
+
+                    {user && (
                         <p className="text-xl ml-2 mt-5 mb-10 text-white font-bold">
-                            Profile
+                            <Link to="/profile">Profile</Link>
                         </p>
-                    </Link>
+                    )}
                     <hr />
                     <div className="pl-3 pt-10">
                         {user ? (
                             <button
-                                onClick={()=>logout()}
+                                onClick={() => logout()}
                                 className="  font-bold bg-white text-blue-500 rounded-md my-3 px-2 py-1"
                             >
                                 Logout
                             </button>
                         ) : (
-                            <Link to="/login">
-                                <button className="font-bold bg-white text-blue-500 rounded-md my-3 px-2 py-1">
-                                    Login
-                                </button>
-                            </Link>
+                            <button className="font-bold bg-white text-blue-500 rounded-md my-3 px-2 py-1">
+                                <Link to="/login">Login</Link>
+                            </button>
                         )}
                     </div>
                 </div>

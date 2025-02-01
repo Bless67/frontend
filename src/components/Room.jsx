@@ -39,19 +39,22 @@ function Room() {
     };
 
     return (
-        <main className="flex flex-col min-h-screen">
-            <div className="grow">
+        <main className={`flex flex-col h-screen ${isFilterOpen?"overflow-hidden":"overflow-auto"} `}>
+            <div className={`grow `}>
                 <Header>
                     <IoMdArrowRoundBack onClick={() => navigate("/")} />
                 </Header>
 
-                {loading && (
+                {loading && !data && (
                     <div className="animate-spin rounded-full h-16 w-16 border-t-4 mx-auto mt-44 border-blue-500"></div>
                 )}
                 {errorMessage && (
+                  <div>
                     <p className="text-center font-bold text-red-500 my-11 text-md">
                         {errorMessage}
                     </p>
+                  
+                    </div>
                 )}
                 {constantData && constantData.length > 0 && (
                     <div className="text-gray-600">

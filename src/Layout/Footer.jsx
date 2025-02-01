@@ -8,18 +8,21 @@ import {
 import { FaXTwitter } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../Utils/AuthProvider.jsx";
 
 const Footer = () => {
+    const { user } = useAuth();
     const [contactOpen, setContactOpen] = useState(false);
     return (
         <footer className="bg-gray-200 w-full p-2 text-gray-600">
             <p className="text-blue-500 text-2xl font-extrabold">
                 <Link to="/">Bicons</Link>
             </p>
-
-            <p className="my-3 text-xl font-bold">
-                <Link to="/check-reservation">Reservation</Link>
-            </p>
+            {user && (
+                <p className="my-3 text-xl font-bold">
+                    <Link to="/check-reservation">Reservation</Link>
+                </p>
+            )}
             <p className="my-3 text-xl font-bold">About us</p>
             <div className={`${contactOpen && "shadow"}`}>
                 <p className="my-3 text-xl font-bold flex items-center gap-3">
@@ -28,7 +31,7 @@ const Footer = () => {
                         onClick={() => setContactOpen(!contactOpen)}
                         className="text-3xl bg-blue-500 rounded-full"
                     >
-                        {contactOpen ? <FaAngleDown /> : <FaAngleUp />}
+                        {contactOpen ? <FaAngleUp /> : <FaAngleDown />}
                     </button>
                 </p>
                 <div
@@ -36,7 +39,7 @@ const Footer = () => {
                         contactOpen ? "mb-3 h-16 opacity-100" : "h-0 opacity-0"
                     } text-gray-600 font-bold p-1 px-4`}
                 >
-                    <p>Email: blessed70@gmail.com</p>
+                    <p>Email: bicons70@gmail.com</p>
                     <p>Phone no: 09076543376</p>
                 </div>
             </div>

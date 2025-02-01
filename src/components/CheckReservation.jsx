@@ -4,11 +4,16 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaAngleUp, FaAngleDown } from "react-icons/fa";
 import Header from "../Layout/Header.jsx";
 import Footer from "../Layout/Footer.jsx";
+import Modal from "../Layout/Modal.jsx"
 import { useNavigate, Link } from "react-router-dom";
+import { ToastContainer, toast, Slide } from "react-toastify";
 const CheckReservation = () => {
     const [data, setData] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [isModalOpen,setIsModalOpen]=useState(false)
+    const [isCancel, setIsCancel] = useState(false);
+    const [cancelId,setCancelId]=useState(null)
     const navigate = useNavigate();
 
     const formatDate = dateString => {
@@ -37,6 +42,23 @@ const CheckReservation = () => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        if (isCancel) {
+            toast.success("Reservation cancelled successful", {
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Slide
+            });
+            return () => setIsCancel(false);
+        }
+    }, [isCancel]);
+
     const handleCancel = async id => {
         try {
             const response = await api.delete(`api/cancel-reservation/${id}`);
@@ -44,15 +66,21 @@ const CheckReservation = () => {
             if (response.status === 200) {
                 console.log(response.data);
                 setData(data.filter(d => d.id !== id));
+                setIsCancel(true);
             }
         } catch (err) {
             console.error(err);
         }
     };
+    const handleCancelClick=(id)=>{
+      setCancelId(id)
+      setIsModalOpen(true)
+    }
 
     return (
         <div className="flex flex-col min-h-screen">
             <main className="grow">
+                <ToastContainer />
                 <Header>
                     <IoMdArrowRoundBack onClick={() => navigate("/")} />
                 </Header>
@@ -68,12 +96,17 @@ const CheckReservation = () => {
                 <div>
                     {data && data.length > 0 && !loading ? (
                         <div>
+                            <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}
+                            cancelId={cancelId}
+                            setCancelId={setCancelId}
+                            handleCancel={handleCancel}
+                            />
                             <h1 className="text-center text-gray-600 text-2xl font-extrabold my-3">
                                 Reservations
                             </h1>
                             {data.map(res => (
                                 <div
-                                    className="flex justify-center flex-col items-center p-3 shadow-black shadow rounded-md m-1.5 text-gray-600 font-bold mb-8"
+                                    className="flex justify-center flex-col items-center p-3 shadow-black shadow rounded-md m-1.5 text-gray-600 font-bold mb-8 z-10"
                                     key={res.id}
                                 >
                                     <p className="text-2xl text-blue-500 underline">
@@ -89,7 +122,7 @@ const CheckReservation = () => {
                                         {formatDate(res.checkout_date)}
                                     </p>
                                     <button
-                                        onClick={() => handleCancel(res.id)}
+                                        onClick={()=>handleCancelClick(res.id)}
                                         className="my-3 p-1.5 rounded-md border border-red-500"
                                     >
                                         cancel reservation

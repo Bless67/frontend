@@ -61,7 +61,11 @@ const Home = () => {
     }, [isLogged, isLoggedOut]);
 
     return (
-        <div className="h-full">
+        <div
+            className={`h-screen ${
+                isOpen ? "overflow-hidden" : "overflow-auto"
+            }`}
+        >
             <ToastContainer />
             <Header isOpen={isOpen}>
                 <FaBars onClick={handleIsOpen} />
@@ -124,9 +128,11 @@ const Home = () => {
                     <button className="border-2 border-blue-500 text-center text-gray-600  p-2 text-xl px-8 rounded font-bold">
                         <Link to="/room">Rooms</Link>
                     </button>
+                    {user &&
                     <button className="border-2 border-blue-500 text-center text-gray-600  p-2 text-xl  rounded font-bold">
                         <Link to="/check-reservation">Rerservations</Link>
                     </button>
+                    }
                 </div>
             </div>
             <Footer />

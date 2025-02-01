@@ -8,12 +8,11 @@ import SingleRoom from "./components/SingleRoom.jsx";
 import BookReservation from "./components/BookReservation.jsx";
 import CheckReservation from "./components/CheckReservation.jsx";
 import Register from "./components/Register.jsx";
-
+import Profile from "./components/Profile.jsx";
 function App() {
     return (
         <>
             <AuthProvider>
-        
                 <Routes>
                     <Route path="/login" element={<Login />} />
                     <Route path="/" element={<Home />} />
@@ -35,9 +34,9 @@ function App() {
                             </PrivateRoute>
                         }
                     />
+                    <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
                     <Route path="/register" element={<Register />} />
                 </Routes>
-    
             </AuthProvider>
         </>
     );
