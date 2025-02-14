@@ -42,7 +42,7 @@ function SingleRoom() {
                 position: "bottom-center",
                 autoClose: 5000,
                 hideProgressBar: false,
-                closeOnClick: true,
+                closeOnClick: false,
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
@@ -54,7 +54,7 @@ function SingleRoom() {
     }, [isBooked]);
     return (
         <>
-            <ToastContainer />
+            <ToastContainer onClick={() => navigate("/check-reservation")} />
             <Header>
                 <IoMdArrowRoundBack onClick={() => navigate("/room")} />
             </Header>
@@ -87,35 +87,32 @@ function SingleRoom() {
                         </h3>
 
                         <Carousel images={data.images} />
-                        
-                            <h2 className="text-2xl my-1.5 font-bold flex justify-start items-center mt-8">
-                                Amenities
-                                <button
-                                    onClick={() =>
-                                        setIsAmenityOpen(!isAmenityOpen)
-                                    }
-                                    className=" text-gray-600 ml-4 text-3xl bg-blue-500  px-1 rounded-full"
-                                >
-                                    {isAmenityOpen ? (
-                                        <FaAngleUp />
-                                    ) : (
-                                        <FaAngleDown />
-                                    )}
-                                </button>
-                            </h2>
-                            {data.room_amenities.map(amenity => (
-                                <div
-                                    key={amenity.id}
-                                    className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                                        isAmenityOpen
-                                            ? "max-h-40 opacity-100"
-                                            : "max-h-0 opacity-0"
-                                    }`}
-                                >
-                                    <li>{amenity.amenity_name}</li>
-                                </div>
-                            ))}
-                        
+
+                        <h2 className="text-2xl my-1.5 font-bold flex justify-start items-center mt-8">
+                            Amenities
+                            <button
+                                onClick={() => setIsAmenityOpen(!isAmenityOpen)}
+                                className=" text-gray-600 ml-4 text-3xl bg-blue-500  px-1 rounded-full"
+                            >
+                                {isAmenityOpen ? (
+                                    <FaAngleUp />
+                                ) : (
+                                    <FaAngleDown />
+                                )}
+                            </button>
+                        </h2>
+                        {data.room_amenities.map(amenity => (
+                            <div
+                                key={amenity.id}
+                                className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                                    isAmenityOpen
+                                        ? "max-h-40 opacity-100"
+                                        : "max-h-0 opacity-0"
+                                }`}
+                            >
+                                <li>{amenity.amenity_name}</li>
+                            </div>
+                        ))}
 
                         <h2 className="text-2xl my-4 mt-7 font-bold flex justify-start items-center">
                             Features
@@ -154,6 +151,19 @@ function SingleRoom() {
                                         Book Reservation
                                     </Link>
                                 </button>
+                            </div>
+                        )}
+                        {!user && (
+                            <div>
+                                <p className="text-xl text-center font-bold my-4 text-gray-600">
+                                    <span
+                                        onClick={() => navigate("/login")}
+                                        className="text-blue-500 underline"
+                                    >
+                                        Login
+                                    </span>{" "}
+                                    to book a reservation for this room
+                                </p>
                             </div>
                         )}
                     </div>

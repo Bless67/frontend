@@ -47,9 +47,10 @@ const Login = () => {
             localStorage.setItem("accessToken", response.data.access);
             localStorage.setItem("refreshToken", response.data.refresh);
             setUser(jwtDecode(localStorage.getItem("accessToken")));
-            setIsLogged(true)
+            setIsLogged(true);
             console.log(response.data);
             navigate("/");
+            setPassword("");
         } catch (err) {
             console.error(err);
             if (err.response.status === 401) {
@@ -69,6 +70,7 @@ const Login = () => {
                 </p>
 
                 <form onSubmit={handleLogin} className="flex flex-col  px-6">
+                    <label className="mt-4 font-bold">Username</label>
                     <input
                         type="text"
                         placeholder="Username"
@@ -78,20 +80,20 @@ const Login = () => {
                             usernameError
                                 ? "border border-red-500"
                                 : "border border-black"
-                        } p-1.5 rounded-xl font-bold mt-3`}
+                        } p-1.5 rounded-xl font-bold mt-1`}
                     />
                     {usernameError && (
                         <p className="text-center font-bold text-red-500 text-sm">
                             {usernameError}
                         </p>
                     )}
-
+                    <label className="mt-4 font-bold mt-8">Password</label>
                     <input
                         className={`${
                             passwordError
                                 ? "border border-red-500"
                                 : "border border-black"
-                        } p-1.5 rounded-xl font-bold mt-8`}
+                        } p-1.5 rounded-xl font-bold mt-1`}
                         type={showPassword ? "text" : "password"}
                         placeholder="Password"
                         value={password}

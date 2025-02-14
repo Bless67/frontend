@@ -1,10 +1,11 @@
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaAngleUp, FaAngleDown } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../Utils/AuthProvider.jsx";
 import { ToastContainer, toast } from "react-toastify";
 const Sidebar = ({ isOpen, setIsOpen }) => {
     const { user, logout } = useAuth();
+    const [contactOpen, setContactOpen] = useState(false);
     const handleClose = () => {
         if (isOpen) {
             setIsOpen(false);
@@ -47,19 +48,39 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                         </p>
                     )}
 
-                    <p className="text-xl ml-2 mt-5 text-white font-bold">
-                        Contacts
-                    </p>
-
-                    <p className="text-xl ml-2 mt-5 text-white font-bold">
-                        <Link>About</Link>
-                    </p>
-
                     {user && (
-                        <p className="text-xl ml-2 mt-5 mb-10 text-white font-bold">
+                        <p className="text-xl ml-2 my-5 text-white font-bold">
                             <Link to="/profile">Profile</Link>
                         </p>
                     )}
+                    <p className="text-xl ml-2 my-5 text-white font-bold">
+                        <Link to="/about">About</Link>
+                    </p>
+                    <div
+                        className={`${
+                            contactOpen && "shadow shadow-black"
+                        } text-xl ml-2 mb-5 text-white font-bold `}
+                    >
+                        <p className="flex items-center gap-3">
+                            Contacts
+                            <button
+                                onClick={() => setContactOpen(!contactOpen)}
+                                className="text-3xl bg-blue-500 rounded-full"
+                            >
+                                {contactOpen ? <FaAngleUp /> : <FaAngleDown />}
+                            </button>
+                        </p>
+                        <div
+                            className={` overflow-hidden transition-all duration-500 ease-in-out text-sm ${
+                                contactOpen
+                                    ? "mb-3 h-16 opacity-100"
+                                    : "h-0 opacity-0"
+                            }  font-bold p-1 px-4`}
+                        >
+                            <p>Email: bicons70@gmail.com</p>
+                            <p>Phone no: 09076543376</p>
+                        </div>
+                    </div>
                     <hr />
                     <div className="pl-3 pt-10">
                         {user ? (

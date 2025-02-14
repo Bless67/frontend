@@ -47,7 +47,7 @@ function BookReservation() {
             checkin_date,
             checkout_date
         };
-
+        console.log(payload)
         if (email === "") {
             setEmailError("Email is empty");
             hasError = true;

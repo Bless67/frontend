@@ -23,7 +23,9 @@ const Footer = () => {
                     <Link to="/check-reservation">Reservation</Link>
                 </p>
             )}
-            <p className="my-3 text-xl font-bold">About us</p>
+            <p className="my-3 text-xl font-bold">
+                <Link to="/about">About us</Link>
+            </p>
             <div className={`${contactOpen && "shadow"}`}>
                 <p className="my-3 text-xl font-bold flex items-center gap-3">
                     Contact us
