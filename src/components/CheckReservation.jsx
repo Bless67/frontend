@@ -65,7 +65,7 @@ const CheckReservation = () => {
 
     const handleCancel = async id => {
         try {
-            const response = await api.delete(`api/cancel-reservation/${id}`);
+            const response = await api.delete(`api/cancel-reservation/${id}/`);
 
             if (response.status === 200) {
                 console.log(response.data);

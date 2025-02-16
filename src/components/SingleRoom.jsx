@@ -23,7 +23,7 @@ function SingleRoom() {
         const fetchDtata = async () => {
             setLoading(true);
             try {
-                const response = await api.get(`api/room/${id}`);
+                const response = await api.get(`api/room/${id}/`);
                 setData(response.data);
                 console.log(response.data);
             } catch (err) {
