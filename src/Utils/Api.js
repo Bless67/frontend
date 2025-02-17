@@ -25,7 +25,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       try {
         const refreshToken = localStorage.getItem("refreshToken");
-        const response = await axios.post("http://127.0.0.1:8000/api/token/refresh/", {
+        const response = await axios.post("https://web-production-186a.up.railway.app/api/token/refresh/", {
           refresh: refreshToken,
         });
         localStorage.setItem("accessToken", response.data.access);
