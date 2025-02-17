@@ -1,7 +1,7 @@
 import { FaStar } from "react-icons/fa";
 
 const Card = ({ room_name, room_type, room_price, image }) => {
-    const baseUrl = "https://web-production-186a.up.railway.app";
+    const baseUrl = "https://res.cloudinary.com/db2tiupnj/"
 
     return (
         <div className="bg-gray-200 mb-5 rounded-xl mx-2 p-1 shadow-md shadow-blue-500">

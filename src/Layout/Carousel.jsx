@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const Carousel = ({ images }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const baseUrl = "https://web-production-186a.up.railway.app";
+    const baseUrl = "https://res.cloudinary.com/db2tiupnj/";
     const goToPrevious = () => {
         setCurrentIndex(prevIndex =>
             prevIndex === 0 ? images.length - 1 : prevIndex - 1
