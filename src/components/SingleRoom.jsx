@@ -8,33 +8,28 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import Header from "../Layout/Header.jsx";
 import Footer from "../Layout/Footer.jsx";
 import { ToastContainer, toast, Slide } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
 
 function SingleRoom() {
     const { user, isBooked, setIsBooked } = useAuth();
 
     const { id } = useParams();
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [erroMessage, setErrorMessage] = useState(null);
     const [isFeatureOpen, setIsFeatureOpen] = useState(false);
     const [isAmenityOpen, setIsAmenityOpen] = useState(false);
     const navigate = useNavigate();
-    useEffect(() => {
-        const fetchDtata = async () => {
-            setLoading(true);
-            try {
-                const response = await api.get(`api/room/${id}/`);
-                setData(response.data);
-                console.log(response.data);
-            } catch (err) {
-                console.error(err);
-                setErrorMessage("An Error occured,please try again");
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchDtata();
-    }, []);
+
+    const fetchData = async () => {
+        const response = await api.get(`api/room/${id}/`);
+        console.log(response.data);
+        return response.data;
+    };
+    const { data, isLoading, error } = useQuery({
+        queryKey: ["room",id],
+        queryFn: fetchData,
+        staleTime: 5 * 60 * 1000,
+        cacheTime: 10 * 60 * 1000,
+        refetchOnWindowFocus: false
+    });
 
     useEffect(() => {
         if (isBooked) {
@@ -59,12 +54,12 @@ function SingleRoom() {
                 <IoMdArrowRoundBack onClick={() => navigate("/room")} />
             </Header>
             <div className="mx-1 text-gray-600">
-                {loading && (
-                    <div className="animate-spin rounded-full h-16 w-16 border-t-4 mx-auto mt-44 border-blue-500"></div>
+                {isLoading && (
+                                       <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 mx-auto mt-44 border-t-white border-b-white"></div>
                 )}
-                {erroMessage && (
+                {error && (
                     <p className="text-center font-bold text-red-500 my-11 text-md">
-                        {erroMessage}
+                        An error occurred,please try again
                     </p>
                 )}
                 {data && (
@@ -101,18 +96,19 @@ function SingleRoom() {
                                 )}
                             </button>
                         </h2>
-                        {data.room_amenities.map(amenity => (
-                            <div
-                                key={amenity.id}
-                                className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                                    isAmenityOpen
-                                        ? "max-h-40 opacity-100"
-                                        : "max-h-0 opacity-0"
-                                }`}
-                            >
-                                <li>{amenity.amenity_name}</li>
-                            </div>
-                        ))}
+                        {data &&
+                            data.room_amenities.map(amenity => (
+                                <div
+                                    key={amenity.id}
+                                    className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                                        isAmenityOpen
+                                            ? "max-h-40 opacity-100"
+                                            : "max-h-0 opacity-0"
+                                    }`}
+                                >
+                                    <li>{amenity.amenity_name}</li>
+                                </div>
+                            ))}
 
                         <h2 className="text-2xl my-4 mt-7 font-bold flex justify-start items-center">
                             Features
@@ -127,18 +123,19 @@ function SingleRoom() {
                                 )}
                             </button>
                         </h2>
-                        {data.room_features.map(feature => (
-                            <div
-                                key={feature.id}
-                                className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                                    isFeatureOpen
-                                        ? "max-h-40 opacity-100"
-                                        : "max-h-0 opacity-0"
-                                }`}
-                            >
-                                <li>{feature.feature_name}</li>
-                            </div>
-                        ))}
+                        {data &&
+                            data.room_features.map(feature => (
+                                <div
+                                    key={feature.id}
+                                    className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                                        isFeatureOpen
+                                            ? "max-h-40 opacity-100"
+                                            : "max-h-0 opacity-0"
+                                    }`}
+                                >
+                                    <li>{feature.feature_name}</li>
+                                </div>
+                            ))}
                         <p className="mx-1 text-md font-light font-sans my-4 text-gray-600">
                             {data.room_description}
                         </p>
@@ -169,7 +166,7 @@ function SingleRoom() {
                     </div>
                 )}
             </div>
-            {!loading && !erroMessage && <Footer />}
+            {!isLoading && !error && <Footer />}
         </>
     );
 }

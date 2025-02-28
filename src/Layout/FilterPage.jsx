@@ -4,7 +4,7 @@ import { useState } from "react";
 const FilterPage = ({
     isFilterOpen,
     setIsFilterOpen,
-    setData,
+    setFilteredData,
     constantData
 }) => {
     const [minPrice, setMinPrice] = useState(0);
@@ -22,7 +22,7 @@ const FilterPage = ({
     };
 
     const handleFilterData = () => {
-        const filteredData = constantData.filter(item => {
+        const allreadyFilterData = constantData.filter(item => {
             const withinPriceRange =
                 item.room_price >= minPrice && item.room_price <= maxPrice;
             const matchesRoomType =
@@ -30,7 +30,7 @@ const FilterPage = ({
             return matchesRoomType && withinPriceRange;
         });
 
-        setData(filteredData);
+        setFilteredData(allreadyFilterData);
         setIsFilterOpen(!isFilterOpen);
     };
     return (
