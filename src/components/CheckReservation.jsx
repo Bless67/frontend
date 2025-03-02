@@ -7,16 +7,18 @@ import Footer from "../Layout/Footer.jsx";
 import Modal from "../Layout/Modal.jsx";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast, Slide } from "react-toastify";
+import { useQueryClient } from "@tanstack/react-query";
+
 const CheckReservation = () => {
     const [data, setData] = useState(null);
-  
+
     const [errorMessage, setErrorMessage] = useState(null);
     const [loading, setLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isCancel, setIsCancel] = useState(false);
     const [cancelId, setCancelId] = useState(null);
     const navigate = useNavigate();
-
+    const queryClient = useQueryClient();
     const formatDate = dateString => {
         const date = new Date(dateString);
         return date.toLocaleDateString("en-US", {
@@ -33,9 +35,8 @@ const CheckReservation = () => {
                 const response = await api.get("api/check-reservation/");
 
                 setData(response.data);
-               
+
                 console.log(response.data);
-              
             } catch (err) {
                 console.error(err);
                 setErrorMessage("An error occured please try again");
@@ -59,6 +60,7 @@ const CheckReservation = () => {
                 theme: "dark",
                 transition: Slide
             });
+            queryClient.invalidateQueries(["rooms"])
             return () => setIsCancel(false);
         }
     }, [isCancel]);
@@ -76,15 +78,14 @@ const CheckReservation = () => {
             console.error(err);
         }
     };
-    const handleCancelClick = (id ,is_expired)=> {
-      if(is_expired){
-        handleCancel(id)
-        setIsModalOpen(false)
-      }
-      else{
-        setCancelId(id);
-        setIsModalOpen(true);
-      }
+    const handleCancelClick = (id, is_expired) => {
+        if (is_expired) {
+            handleCancel(id);
+            setIsModalOpen(false);
+        } else {
+            setCancelId(id);
+            setIsModalOpen(true);
+        }
     };
 
     return (
@@ -100,11 +101,11 @@ const CheckReservation = () => {
                     </p>
                 )}
                 {loading && (
-                    <div className="animate-spin rounded-full h-16 w-16 border-t-4 mx-auto mt-[100px] border-blue-500"></div>
+                    <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 mx-auto mt-44 border-t-white border-b-white"></div>
                 )}
 
                 <div>
-                    {data && data.length > 0 && !loading ? (
+                    {data?.length > 0 && !loading ? (
                         <div>
                             <Modal
                                 isModalOpen={isModalOpen}
@@ -134,12 +135,21 @@ const CheckReservation = () => {
                                         Check-out:{" "}
                                         {formatDate(res.checkout_date)}
                                     </p>
-                                    <p className={`text-xl text-center font-bold ${res.is_expired?"text-red-500":"text-green-500"}`}>
+                                    <p
+                                        className={`text-xl text-center font-bold ${
+                                            res.is_expired
+                                                ? "text-red-500"
+                                                : "text-green-500"
+                                        }`}
+                                    >
                                         {res.is_expired ? "Epired" : "Active"}
                                     </p>
                                     <button
                                         onClick={() =>
-                                            handleCancelClick(res.id,res.is_expired)
+                                            handleCancelClick(
+                                                res.id,
+                                                res.is_expired
+                                            )
                                         }
                                         className="my-3 p-1.5 rounded-md border border-red-500"
                                     >

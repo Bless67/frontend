@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../Utils/Api.js";
+import { useAuth } from "../Utils/AuthProvider.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import Card from "../Layout/Card.jsx";
 import { BsFilterLeft } from "react-icons/bs";
@@ -10,6 +11,7 @@ import FilterPage from "../Layout/FilterPage.jsx";
 import { useQuery } from "@tanstack/react-query";
 
 function Room() {
+    const { isBooked } = useAuth();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [filteredData, setFilteredData] = useState(null);
     const navigate = useNavigate();
@@ -18,7 +20,7 @@ function Room() {
         console.log(response.data);
         return response.data;
     };
-    const { data, isLoading, error } = useQuery({
+    const { data, isLoading, error, refetch } = useQuery({
         queryKey: ["rooms"],
         queryFn: fetchData,
         staleTime: 5 * 60 * 1000,
@@ -55,7 +57,7 @@ function Room() {
                         </p>
                     </div>
                 )}
-                {data && data.length > 0 && (
+                {data?.length > 0 && (
                     <div className="text-gray-600">
                         <FilterPage
                             isFilterOpen={isFilterOpen}
@@ -78,35 +80,31 @@ function Room() {
                             <BsFilterLeft className="font-bold mx-1" />
                         </button>
                         <ul>
-                            {filteredData &&
-                                filteredData.map(item => (
-                                    <Link to={`/room/${item.id}`} key={item.id}>
-                                        <Card
-                                            room_name={item.room_name}
-                                            room_price={item.room_price}
-                                            room_type={item.room_type}
-                                            image={item.images[0].image}
-                                        />
-                                    </Link>
-                                ))}
+                            {filteredData?.map(item => (
+                                <Link to={`/room/${item.id}`} key={item.id}>
+                                    <Card
+                                        room_name={item.room_name}
+                                        room_price={item.room_price}
+                                        room_type={item.room_type}
+                                        image={item.images[0].image}
+                                    />
+                                </Link>
+                            ))}
                         </ul>
                     </div>
                 )}
-                {data && data.length <= 0 && (
+                {data?.length <= 0 && (
                     <p className="text-2xl font-bold text-gray-600 my-28 text-center mx-2">
                         No available room at the moment
                     </p>
                 )}
-                {data &&
-                    data.length > 0 &&
-                    filteredData &&
-                    filteredData.length <= 0 && (
-                        <div>
-                            <p className="text-md font-bold text-gray-600 my-28 text-center mx-4">
-                                No matching room
-                            </p>
-                        </div>
-                    )}
+                {data?.length > 0 && filteredData?.length <= 0 && (
+                    <div>
+                        <p className="text-md font-bold text-gray-600 my-28 text-center mx-4">
+                            No matching room
+                        </p>
+                    </div>
+                )}
             </div>
             {!isLoading && !error && <Footer />}
         </main>
