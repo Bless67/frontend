@@ -9,7 +9,7 @@ import BookReservation from "./components/BookReservation.jsx";
 import CheckReservation from "./components/CheckReservation.jsx";
 import Register from "./components/Register.jsx";
 import Profile from "./components/Profile.jsx";
-import About from "./components/About.jsx"
+import About from "./components/About.jsx";
 function App() {
     return (
         <>
@@ -35,9 +35,16 @@ function App() {
                             </PrivateRoute>
                         }
                     />
-                    <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+                    <Route
+                        path="/profile"
+                        element={
+                            <PrivateRoute>
+                                <Profile />
+                            </PrivateRoute>
+                        }
+                    />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/about" element={<About/>}/>
+                    <Route path="/about" element={<About />} />
                 </Routes>
             </AuthProvider>
         </>
